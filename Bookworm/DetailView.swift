@@ -39,8 +39,13 @@ struct DetailView: View {
             
             Text(book.review)
                 .padding()
+                .font(.title2)
             
             RatingView(rating: .constant(book.rating))
+            
+            Text(book.date.formatted(date: .abbreviated, time: .omitted))
+                .padding()
+                .font(.subheadline)
         }
         .alert("Delete book", isPresented: $showingDeleteAlert) {
             Button("Delete", role: .destructive) {
