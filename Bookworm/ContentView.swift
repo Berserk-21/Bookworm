@@ -47,6 +47,9 @@ struct ContentView: View {
                         showingAddScreen.toggle()
                     }
                 }
+                ToolbarItem(placement: .topBarLeading) {
+                    EditButton()
+                }
             })
             .sheet(isPresented: $showingAddScreen, content: {
                 AddBookView()
