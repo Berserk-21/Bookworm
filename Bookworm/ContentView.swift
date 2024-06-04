@@ -10,7 +10,9 @@ import SwiftData
 
 struct ContentView: View {
     
-    @Query var books: [Book]
+//    @Query(sort: \Book.title) var books: [Book]
+//    @Query(sort: \Book.rating, order: .reverse) var books: [Book]
+    @Query(sort: [SortDescriptor(\Book.title), SortDescriptor(\Book.rating)]) var books: [Book]
     
     @State private var showingAddScreen = false
     
