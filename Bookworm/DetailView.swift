@@ -11,6 +11,7 @@ import SwiftData
 struct DetailView: View {
     
     @Environment(\.modelContext) var modelContext
+    @Environment(\.dismiss) var dismiss
     
     @State private var showingDeleteAlert = false
     
@@ -44,6 +45,7 @@ struct DetailView: View {
         .alert("Delete book", isPresented: $showingDeleteAlert) {
             Button("Delete", role: .destructive) {
                 deleteBook()
+                dismiss()
             }
             Button("Cancel", role: .cancel) {}
         } message: {
