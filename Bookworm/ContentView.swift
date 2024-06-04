@@ -13,13 +13,15 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack {
-            TextField("Enter your text", text: $notes, axis: .vertical)
-                .textFieldStyle(.roundedBorder)
-                .navigationTitle("Notes")
-                .padding()
-            TextEditor(text: $notes)
-                .navigationTitle("Notes")
-                .padding()
+            Form {
+                TextField("Enter your text", text: $notes, axis: .vertical)
+                    .textFieldStyle(.plain)
+                    .navigationTitle("Notes")
+                    .padding()
+//                TextEditor(text: $notes)
+//                    .navigationTitle("Notes")
+//                    .padding()
+            }
         }
     }
 }
