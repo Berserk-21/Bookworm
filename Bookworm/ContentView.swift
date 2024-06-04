@@ -6,44 +6,80 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
     
-    @AppStorage("notes") private var notes = ""
+    @Query var books: [Book]
+    
+    @State private var showingAddScreen = false
     
     var body: some View {
         NavigationStack {
-            Form {
-                TextField("Enter your text", text: $notes, axis: .vertical)
-                    .textFieldStyle(.plain)
-                    .navigationTitle("Notes")
-                    .padding()
-//                TextEditor(text: $notes)
-//                    .navigationTitle("Notes")
-//                    .padding()
-            }
+            Text("Count: \(books.count) books")
+                .navigationTitle("Bookwork")
+                .toolbar(content: {
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button("Add Book", systemImage: "plus") {
+                            showingAddScreen.toggle()
+                        }
+                    }
+                })
+                .sheet(isPresented: $showingAddScreen, content: {
+                    AddBookView()
+                })
         }
     }
 }
 
-struct PushButton: View {
+struct AddBookView: View {
     
-    let title: String
-    // Use Binding to binds this property to the one from the contentView. They now share the same state.
-    @Binding var isOn: Bool
+    @Environment(\.modelContext) var modelContext
+    @Environment(\.dismiss) var dismiss
     
-    var onColors = [Color.red, Color.yellow]
-    var offColors = [Color(white: 0.6), Color(white: 0.4)]
+    @State private var title = ""
+    @State private var author = ""
+    @State private var genre = "Fantasy"
+    @State private var review = ""
+    @State private var rating = 3
+    
+    let genres = ["Fantasy", "Horror", "Kids", "Mystery", "Poetry", "Romance", "Thriller"]
     
     var body: some View {
-        Button(title) {
-            isOn.toggle()
+        NavigationStack {
+            Form {
+                Section {
+                    
+                    TextField("Name of the book", text: $title)
+                    TextField("Author's name", text: $author)
+                    
+                    Picker("Genre", selection: $genre) {
+                        ForEach(genres, id: \.self) {
+                            Text($0)
+                        }
+                    }
+                }
+                
+                Section("Write a review") {
+                    TextEditor(text: $review)
+                    
+                    Picker("Rating", selection: $rating) {
+                        ForEach(0..<6) {
+                            Text(String($0))
+                        }
+                    }
+                }
+                
+                Section {
+                    Button("Save") {
+                        let newBook = Book(title: title, author: author, genre: genre, review: review, rating: rating)
+                        modelContext.insert(newBook)
+                        dismiss()
+                    }
+                }
+            }
+            .navigationTitle("Add Book")
         }
-        .padding()
-        .background(LinearGradient(colors: isOn ? onColors : offColors, startPoint: .top, endPoint: .bottom))
-        .foregroundStyle(.white)
-        .clipShape(.capsule)
-        .shadow(radius: isOn ? 0 : 5)
     }
 }
 
