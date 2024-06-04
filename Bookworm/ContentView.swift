@@ -9,11 +9,18 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var isOn = false
+    @AppStorage("notes") private var notes = ""
     
     var body: some View {
-        PushButton(title: isOn ? "Turn off" : "Turn on", isOn: $isOn)
-        .padding()
+        NavigationStack {
+            TextField("Enter your text", text: $notes, axis: .vertical)
+                .textFieldStyle(.roundedBorder)
+                .navigationTitle("Notes")
+                .padding()
+            TextEditor(text: $notes)
+                .navigationTitle("Notes")
+                .padding()
+        }
     }
 }
 
