@@ -10,8 +10,7 @@ import SwiftData
 
 struct ContentView: View {
     
-//    @Query(sort: \Book.title) var books: [Book]
-//    @Query(sort: \Book.rating, order: .reverse) var books: [Book]
+    @Environment(\.modelContext) var modelContext
     @Query(sort: [SortDescriptor(\Book.title), SortDescriptor(\Book.rating)]) var books: [Book]
     
     @State private var showingAddScreen = false
@@ -34,6 +33,9 @@ struct ContentView: View {
                         }
                     }
                 }
+                .onDelete(perform: { indexSet in
+                    deleteBooks(at: indexSet)
+                })
             }
             .navigationDestination(for: Book.self, destination: { book in
                 DetailView(book: book)
@@ -49,6 +51,13 @@ struct ContentView: View {
             .sheet(isPresented: $showingAddScreen, content: {
                 AddBookView()
             })
+        }
+    }
+    
+    func deleteBooks(at offsets: IndexSet) {
+        for offset in offsets {
+            let book = books[offset]
+            modelContext.delete(book)
         }
     }
 }
