@@ -47,10 +47,16 @@ struct AddBookView: View {
                         modelContext.insert(newBook)
                         dismiss()
                     }
+                    .disabled(disableSaveButton())
                 }
             }
             .navigationTitle("Add Book")
         }
+    }
+    
+    func disableSaveButton() -> Bool {
+        
+        return title.isEmpty || author.isEmpty || genre.isEmpty || review.isEmpty
     }
 }
 
