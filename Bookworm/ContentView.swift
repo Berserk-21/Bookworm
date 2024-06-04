@@ -33,6 +33,9 @@ struct ContentView: View {
                     }
                 }
             }
+            .navigationDestination(for: Book.self, destination: { book in
+                DetailView(book: book)
+            })
             .navigationTitle("Bookwork")
             .toolbar(content: {
                 ToolbarItem(placement: .topBarTrailing) {
