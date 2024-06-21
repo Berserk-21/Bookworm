@@ -67,12 +67,14 @@ struct DetailView: View {
     }
     
     func deleteBook() {
+        // Deletions are performed on the model context for SwiftData.
         modelContext.delete(book)
     }
 }
 
 #Preview {
     do {
+        // We can create temporary model container for Previews.
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         let container = try ModelContainer(for: Book.self, configurations: config)
         let example = Book(title: "Book title", author: "Book author", genre: "Book genre", review: "Rellay enjoyed it", rating: 5)

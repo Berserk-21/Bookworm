@@ -10,7 +10,10 @@ import SwiftData
 
 struct ContentView: View {
     
+    // Creating a modelContext automatically creates a container for this context.
     @Environment(\.modelContext) var modelContext
+    
+    // Sort descriptors are recommanded for Query. (Better performance).
     @Query(sort: [SortDescriptor(\Book.title), SortDescriptor(\Book.rating)]) var books: [Book]
     
     @State private var showingAddScreen = false
@@ -34,6 +37,7 @@ struct ContentView: View {
                         }
                     }
                 }
+                // We can perform code for different actions on ForEach views.
                 .onDelete(perform: { indexSet in
                     deleteBooks(at: indexSet)
                 })

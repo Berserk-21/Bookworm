@@ -8,6 +8,7 @@
 import Foundation
 import SwiftData
 
+// SwiftData models are classes and observable by nature, with @Model.
 @Model
 class Book {
     var title: String

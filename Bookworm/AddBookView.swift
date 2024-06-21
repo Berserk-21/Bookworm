@@ -24,7 +24,7 @@ struct AddBookView: View {
         NavigationStack {
             Form {
                 Section {
-                    
+                    // Providing an axis allows the TextField size to grow as the user types.
                     TextField("Name of the book", text: $title)
                     TextField("Author's name", text: $author)
                     
@@ -44,6 +44,7 @@ struct AddBookView: View {
                 Section {
                     Button("Save") {
                         let newBook = Book(title: title, author: author, genre: genre, review: review, rating: rating)
+                        // Insert the model to the context to allow saving, deleting and more.
                         modelContext.insert(newBook)
                         dismiss()
                     }

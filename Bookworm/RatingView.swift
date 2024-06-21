@@ -9,6 +9,8 @@ import SwiftUI
 
 struct RatingView: View {
     
+    // @Binding lets us share this property in other UI components.
+    // @Bindable is used to make a class observable.
     @Binding var rating: Int
     
     var label = ""
